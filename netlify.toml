@@ -1,5 +1,5 @@
 [Settings]
-	ID = "project-boilerplate"
+	ID = "salsify-ui"
 
 [build]
 	command = "yarn build:gatsby"

@@ -2,10 +2,10 @@ import React from "react"
 import { css } from "emotion"
 import { graphql } from "gatsby"
 import { Helmet } from "react-helmet"
-import fetch from "isomorphic-fetch"
 
 import Layout from "../components/layouts/default"
 import { primaryColor } from "../styles/colors"
+import { deleteProperties } from "../utils/request"
 
 export default class HomePage extends React.Component {
 	constructor(props) {
@@ -40,24 +40,11 @@ export default class HomePage extends React.Component {
 	async deleteProps() {
 		if (this.state.properties.length > 0) {
 			this.setState({ loading: true })
-			const res = await fetch(
-				` https://app.salsify.com/api/v1/orgs/${
-					process.env.GATSBY_SALSIFY_API_TOKEN
-				}/properties/`,
-				{
-					method: `DELETE`,
-					headers: {
-						Authorization: `Bearer ${process.env.GATSBY_SALSIFY_API_TOKEN}`,
-						"Cache-Control": `no-cache`,
-						"Content-Type": `application/json`,
-					},
-					body: JSON.stringify({
-						ids: this.state.properties,
-					}),
-				}
-			)
-
-			console.log(res)
+			try {
+				await deleteProperties(this.state.properties)
+			} catch (e) {
+				Object.keys(e).map(key => console.log(e[key]))
+			}
 		}
 	}
 
@@ -102,23 +89,34 @@ const styles = {
 		background: #00ffd2;
 		border: 2px solid #66b2b2;
 		outline: none;
-		color: white;
+		color: #66b2b2;
 		height: 30px;
 		width: 100px;
 		margin-left: 10px;
 		cursor: pointer;
+		& :hover {
+			background: #66b2b2;
+			border: 2px solid #00ffd2;
+			color: #00ffd2;
+		}
 	`,
 	buttonTwo: css`
 		border: none;
 		background: ${primaryColor};
+		border: 2px solid green;
 		display: block;
 		outline: none;
-		color: white;
+		color: green;
 		height: 40px;
 		width: 140px;
 		font-size: 1.3em;
 		margin-top: 10px;
 		cursor: pointer;
+		& :hover {
+			background: green;
+			border: 2px solid ${primaryColor};
+			color: ${primaryColor};
+		}
 	`,
 	input: css`
 		height: 30px;
