@@ -11,7 +11,7 @@ const deleteProperties = async properties => {
 			Authorization: `Bearer ${process.env.GATSBY_SALSIFY_API_TOKEN}`,
 			[`Content-Type`]: `application/json`,
 		},
-		data: properties,
+		data: { ids: properties },
 	})
 }
 
