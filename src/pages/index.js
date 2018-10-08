@@ -15,6 +15,8 @@ export default class HomePage extends React.Component {
 			property: ``,
 			properties: [],
 			loading: false,
+			error: null,
+			errors: null,
 		}
 
 		this.onChange = this.onChange.bind(this)
@@ -43,12 +45,19 @@ export default class HomePage extends React.Component {
 			try {
 				await deleteProperties(this.state.properties)
 			} catch (e) {
-				Object.keys(e).map(key => console.log(e[key]))
+				this.setState({
+					error: JSON.stringify(e),
+					errors: Object.keys(e).map(key => JSON.stringify(e[key])),
+					properties: [],
+					property: ``,
+				})
 			}
 		}
 	}
 
 	render() {
+		const { errors, error } = this.state
+		console.log(this.state)
 		const {
 			site: {
 				frontmatter: { siteTitle, siteDescription },
@@ -79,12 +88,37 @@ export default class HomePage extends React.Component {
 				<button onClick={() => this.deleteProps()} className={styles.buttonTwo}>
 					submit
 				</button>
+				{error ? (
+					<div className={styles.error}>
+						<div>
+							<span>Error Message:</span> <br />
+							{error}
+						</div>
+						<div>
+							<span>Responses:</span>
+							{errors.map((err, i) => (
+								<div key={i}>{err}</div>
+							))}
+						</div>
+					</div>
+				) : null}
 			</Layout>
 		)
 	}
 }
 
 const styles = {
+	error: css`
+		margin-top: 20px;
+		span {
+			font-size: 2em;
+			font-weight: 700;
+			color: #000;
+		}
+		div {
+			color: rgba(255, 0, 0, 1);
+		}
+	`,
 	buttonOne: css`
 		background: #00ffd2;
 		border: 2px solid #66b2b2;
