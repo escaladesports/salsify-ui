@@ -16,7 +16,6 @@ export default class HomePage extends React.Component {
 			properties: [],
 			loading: false,
 			error: null,
-			errors: null,
 		}
 
 		this.onChange = this.onChange.bind(this)
@@ -47,7 +46,6 @@ export default class HomePage extends React.Component {
 			} catch (e) {
 				this.setState({
 					error: JSON.stringify(e),
-					errors: Object.keys(e).map(key => JSON.stringify(e[key])),
 					properties: [],
 					property: ``,
 				})
@@ -56,7 +54,7 @@ export default class HomePage extends React.Component {
 	}
 
 	render() {
-		const { errors, error } = this.state
+		const { error } = this.state
 		console.log(this.state)
 		const {
 			site: {
@@ -91,14 +89,8 @@ export default class HomePage extends React.Component {
 				{error ? (
 					<div className={styles.error}>
 						<div>
-							<span>Error Message:</span> <br />
+							<span>Error:</span> <br />
 							{error}
-						</div>
-						<div>
-							<span>Responses:</span>
-							{errors.map((err, i) => (
-								<div key={i}>{err}</div>
-							))}
 						</div>
 					</div>
 				) : null}
