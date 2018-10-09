@@ -55,7 +55,6 @@ export default class HomePage extends React.Component {
 
 	render() {
 		const { error } = this.state
-		console.log(this.state)
 		const {
 			site: {
 				frontmatter: { siteTitle, siteDescription },

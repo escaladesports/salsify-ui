@@ -4,7 +4,7 @@ import axios from "axios"
 const deleteProperties = async properties => {
 	await axios({
 		url: `https://app.salsify.com/api/v1/orgs/${
-			process.env.GATSBY_SALSIFY_ORG
+			process.env.GATSBY_SANDBOX_ORG
 		}/properties`,
 		method: `delete`,
 		headers: {
